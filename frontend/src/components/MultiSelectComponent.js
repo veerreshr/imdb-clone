@@ -6,9 +6,11 @@ function MultiSelectComponent({ options, selectedData, handleChange }) {
     return { label: d, value: d };
   });
 
-  selectedData = selectedData.map((d) => {
-    return { label: d, value: d };
-  });
+  selectedData = selectedData
+    ? selectedData.map((d) => {
+        return { label: d, value: d };
+      })
+    : [];
 
   // const [selected, setSelected] = useState([...selectedData]);
 

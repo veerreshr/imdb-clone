@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 function MovieCard({
   id,
@@ -13,23 +14,27 @@ function MovieCard({
     history.push(`/editMovie/${id}`);
   };
   return (
-    <div className="col-md-3 col-sm-6 my-2">
-      <div className="card">
+    <div className="col-md-4 col-lg-3 col-sm-6 my-2">
+      <div className="card h-100">
         <img
           className="card-img-top w-100 d-block"
           src={poster}
           alt="Movie Poster"
+          style={{ height: "150px", objectFit: "cover" }}
         />
-        <div className="card-body">
-          <h4 className="card-title">{title || "Title"}</h4>
-          <ul className="list-group">
+        <div className="card-body d-flex flex-column">
+          <Link to={`/movie/${id}`}>
+            <h4 className="card-title">{title || "Title"}</h4>
+          </Link>
+
+          <ul className="list-group mb-2">
             <li className="list-group-item">
               <span>
                 <strong>Year of Release : </strong>
                 {yearofrelease || "2020"}
               </span>
             </li>
-            <li className="list-group-item">
+            <li className="list-group-item ellipsis">
               <span>
                 <strong>Producer : </strong>{" "}
                 {producers
@@ -37,7 +42,7 @@ function MovieCard({
                   : "Producer 1, Producer 2"}
               </span>
             </li>
-            <li className="list-group-item">
+            <li className="list-group-item ellipsis">
               <span>
                 <strong>Actors :</strong>{" "}
                 {actors
@@ -47,7 +52,7 @@ function MovieCard({
             </li>
           </ul>
           <button
-            className="btn btn-primary mt-3"
+            className="btn btn-primary mt-auto"
             type="button"
             onClick={editHandler}
           >

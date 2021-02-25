@@ -2,22 +2,16 @@ import React, { useEffect, useState } from "react";
 import Modal from "../components/Modal";
 import MultiSelectComponent from "../components/MultiSelectComponent";
 import { useDispatch, useSelector } from "react-redux";
-import { getMovieById } from "../actions/movieActions";
+import { addMovie, getMovieById, updateMovie } from "../actions/movieActions";
 import { getAllActorsNames } from "../actions/actorActions";
 import { getAllProducersNames } from "../actions/producerActions";
 import Alert from "../components/Alert";
+import axios from "axios";
 
 function EditScreen({ history, match }) {
   const dispatch = useDispatch();
 
   const currentMovie = useSelector((state) => state.movies.currentMovie) ?? "1";
-
-  // const newlyCreatedActor =
-  //   useSelector((state) => state.actors.newlyCreatedActor.updatedActor) ?? {};
-  // const newlyCreatedProducer =
-  //   useSelector(
-  //     (state) => state.producers.newlyCreatedProducer.updatedProducer
-  //   ) ?? {};
 
   const completeActorsNames = useSelector(
     (state) => state.actors.actorsNameList
@@ -25,6 +19,8 @@ function EditScreen({ history, match }) {
   const completeProducersNames = useSelector(
     (state) => state.producers.producersNameList
   );
+
+  const [uploading, setUploading] = useState(false);
 
   const [name, setName] = useState("");
   const [yearofrelease, setYearofrelease] = useState("");
@@ -76,7 +72,7 @@ function EditScreen({ history, match }) {
       errors["name"] = "Cannot be empty";
     } else {
       if (typeof name !== "undefined") {
-        if (!name.match(/^[a-z][a-z\s]*$/)) {
+        if (!name.match(/[a-zA-Z]|\d|\s|\.*/)) {
           formIsValid = false;
           errors["name"] = "Only letters";
         }
@@ -120,17 +116,71 @@ function EditScreen({ history, match }) {
   const formSubmit = (e) => {
     e.preventDefault();
     if (handleValidation()) {
-      alert("Form submitted");
+      // alert("Form submitted");
+      if (window.location.pathname == "/addMovie") {
+        dispatch(
+          addMovie(
+            {
+              name,
+              yearofrelease,
+              plot,
+              poster,
+              actors,
+              producers,
+            },
+            history
+          )
+        );
+      } else {
+        dispatch(
+          updateMovie(
+            currentMovie._id,
+            {
+              name,
+              yearofrelease,
+              plot,
+              poster,
+              actors,
+              producers,
+            },
+            history
+          )
+        );
+      }
     } else {
       alert("Form has errors.");
     }
   };
 
-  const handleImageUpload = (e) => {
-    const selectedFile = e.target.files[0];
-    const objectUrl = URL.createObjectURL(selectedFile);
-    setPoster(objectUrl);
+  // const handleImageUpload = (e) => {
+  //   const selectedFile = e.target.files[0];
+  //   const objectUrl = URL.createObjectURL(selectedFile);
+  //   setPoster(objectUrl);
+  // };
+
+  const uploadFileHandler = async (e) => {
+    const file = e.target.files[0];
+    const formData = new FormData();
+    formData.append("image", file);
+    setUploading(true);
+
+    try {
+      const config = {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      };
+
+      const { data } = await axios.post("/api/upload", formData, config);
+
+      setPoster(data);
+      setUploading(false);
+    } catch (error) {
+      console.error(error);
+      setUploading(false);
+    }
   };
+
   return (
     <>
       <div className="container">
@@ -179,13 +229,20 @@ function EditScreen({ history, match }) {
             <br />
             {/* {poster} */}
             <div className="row">
-              <img className="col-md-3" src={poster} />
+              {uploading ? (
+                <div class="spinner-grow" role="status">
+                  <span class="sr-only">Loading...</span>
+                </div>
+              ) : (
+                <img className="col-md-3" src={poster} alt="" />
+              )}
+
               <div className="col-md-9 custom-file">
                 <input
                   type="file"
                   className="custom-file-input"
                   id="customFile"
-                  onChange={handleImageUpload}
+                  onChange={uploadFileHandler}
                 />
                 <label className="custom-file-label" htmlFor="customFile">
                   Choose file

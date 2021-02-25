@@ -12,7 +12,7 @@ function MovieListScreen({ history, match }) {
     dispatch(listMovies(""));
   }, [dispatch, history]);
   return (
-    <div>
+    <div className="my-3">
       <div className="container">
         <div className="row">
           {moviesList.map((movie) => {

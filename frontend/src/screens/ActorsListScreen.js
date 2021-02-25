@@ -13,7 +13,7 @@ function ActorsListScreen({ history, match }) {
   }, [dispatch, history]);
   return (
     <div>
-      <div className="container">
+      <div className="container my-3">
         <div className="row">
           {actorsList.map((actor) => {
             return (

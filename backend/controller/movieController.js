@@ -25,13 +25,14 @@ const getAllMovies = expressAsyncHandler(async (req, res) => {
 // @route   POST /api/movies
 // @access  Public for now
 const createMovie = expressAsyncHandler(async (req, res) => {
+  const { name, yearofrelease, plot, poster, actors, producers } = req.body;
   const movie = new Movie({
-    name: "Sample movie",
-    yearofrelease: "2021",
-    plot: "some random plot about the movie",
-    poster: "/uploads/poster1.jpg",
-    actors: ["sample actor"],
-    producers: ["sample producer"],
+    name,
+    yearofrelease,
+    plot,
+    poster,
+    actors,
+    producers,
   });
   const createdMovie = await movie.save();
   res.status(201).json({ createdMovie });

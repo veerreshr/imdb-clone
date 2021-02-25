@@ -43,11 +43,16 @@ function Header() {
                 type="search"
                 id="search-field"
                 name="search"
+                disabled
               />
             </div>
           </form>
-          <Link to="/" className="btn btn-light action-button" role="button">
-            Action
+          <Link
+            to="/addMovie"
+            className="btn btn-light action-button"
+            role="button"
+          >
+            Add Movie
           </Link>
         </div>
       </div>

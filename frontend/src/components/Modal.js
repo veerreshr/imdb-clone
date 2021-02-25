@@ -31,7 +31,7 @@ function Modal({ show = false, title, random }) {
       errors["name"] = "Cannot be empty";
     } else {
       if (typeof name !== "undefined") {
-        if (!name.match(/^[a-zA-Z-,]+(\s{0,1}[a-zA-Z-, ])*$/)) {
+        if (!name.match(/^[a-zA-Z\s\.]+$/)) {
           formIsValid = false;
           errors["name"] = "Only letters";
         }

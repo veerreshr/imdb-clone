@@ -12,7 +12,10 @@ code {
     monospace;
 }
 .ellipsis {
-  -webkit-line-clamp: 3;
+  -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  display: inline-block; /* for em, a, span, etc (inline by default) */
+  text-overflow: ellipsis;
+  width: calc (80%); /* The trick is here! */
 }
