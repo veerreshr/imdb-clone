@@ -5,7 +5,6 @@ import connectDB from "./config/db.js";
 import movieRoutes from "./routes/movieRoutes.js";
 import actorRoutes from "./routes/actorRoutes.js";
 import producerRoutes from "./routes/producerRoutes.js";
-// import uploadRoutes from "./routes/uploadRoutes.js";
 import path from "path";
 import morgan from "morgan";
 
@@ -25,8 +24,8 @@ app.use("/api/movies", movieRoutes);
 app.use("/api/actors", actorRoutes);
 app.use("/api/producers", producerRoutes);
 
-// const __dirname = path.resolve();
-// app.use("/uploads", express.static(path.join(__dirname, "/uploads")));
+const __dirname = path.resolve();
+app.use("/uploads", express.static(path.join(__dirname, "/uploads")));
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "/frontend/build")));

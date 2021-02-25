@@ -13,8 +13,12 @@ const getAllProducers = expressAsyncHandler(async (req, res) => {
         },
       }
     : {};
-  const producers = await Producer.find({ ...keyword });
-  res.json({ producers });
+  try {
+    const producers = await Producer.find({ ...keyword });
+    res.json({ producers });
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 const createProducer = expressAsyncHandler(async (req, res) => {
@@ -25,7 +29,7 @@ const createProducer = expressAsyncHandler(async (req, res) => {
     bio: "some random bio",
   });
   const createdProducer = await producer.save();
-  res.status(201).json(createdProducer);
+  res.status(201).json({ createdProducer });
 });
 
 // @desc    Update a movie
@@ -43,11 +47,22 @@ const updateProducer = expressAsyncHandler(async (req, res) => {
     producer.bio = bio;
 
     const updatedProducer = await producer.save();
-    res.json(updatedProducer);
+    res.json({ updatedProducer });
   } else {
     res.status(404);
     throw new Error("Producer not found");
   }
 });
 
-export { getAllProducers, createProducer, updateProducer };
+const getAllProducersName = expressAsyncHandler(async (req, res) => {
+  try {
+    const producers = await Producer.find({});
+    const allProducerNames = producers.map((d) => d.name);
+    res.json({ allProducerNames });
+  } catch (error) {
+    res.status(500);
+    throw new Error("Something went wrong");
+  }
+});
+
+export { getAllProducers, createProducer, updateProducer, getAllProducersName };

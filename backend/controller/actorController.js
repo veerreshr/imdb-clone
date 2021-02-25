@@ -13,8 +13,13 @@ const getAllActors = expressAsyncHandler(async (req, res) => {
         },
       }
     : {};
-  const actors = await Actor.find({ ...keyword });
-  res.json({ actors });
+  try {
+    const actors = await Actor.find({ ...keyword });
+    res.json({ actors });
+  } catch (error) {
+    res.status(500);
+    throw new Error("Something went wrong");
+  }
 });
 
 const createActor = expressAsyncHandler(async (req, res) => {
@@ -25,7 +30,7 @@ const createActor = expressAsyncHandler(async (req, res) => {
     bio: "some random bio",
   });
   const createdActor = await actor.save();
-  res.status(201).json(createdActor);
+  res.status(201).json({ createdActor });
 });
 
 // @desc    Update a movie
@@ -43,11 +48,22 @@ const updateActor = expressAsyncHandler(async (req, res) => {
     actor.bio = bio;
 
     const updatedActor = await actor.save();
-    res.json(updatedActor);
+    res.json({ updatedActor });
   } else {
     res.status(404);
     throw new Error("Actor not found");
   }
 });
 
-export { getAllActors, createActor, updateActor };
+const getAllActorsName = expressAsyncHandler(async (req, res) => {
+  try {
+    const actors = await Actor.find({});
+    const allActorNames = actors.map((d) => d.name);
+    res.json({ allActorNames });
+  } catch (error) {
+    res.status(500);
+    throw new Error("Something went wrong");
+  }
+});
+
+export { getAllActors, createActor, updateActor, getAllActorsName };

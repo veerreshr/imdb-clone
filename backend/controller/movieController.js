@@ -13,8 +13,12 @@ const getAllMovies = expressAsyncHandler(async (req, res) => {
         },
       }
     : {};
-  const movies = await Movie.find({ ...keyword });
-  res.json({ movies });
+  try {
+    const movies = await Movie.find({ ...keyword });
+    res.json({ movies });
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 // @desc    Create a movie
@@ -30,7 +34,7 @@ const createMovie = expressAsyncHandler(async (req, res) => {
     producers: ["sample producer"],
   });
   const createdMovie = await movie.save();
-  res.status(201).json(createdMovie);
+  res.status(201).json({ createdMovie });
 });
 
 // @desc    Update a movie
@@ -50,11 +54,22 @@ const updateMovie = expressAsyncHandler(async (req, res) => {
     movie.producers = producers;
 
     const updatedMovie = await movie.save();
-    res.json(updatedMovie);
+    res.json({ updatedMovie });
   } else {
     res.status(404);
     throw new Error("Movie not found");
   }
 });
 
-export { getAllMovies, createMovie, updateMovie };
+const getMovieById = expressAsyncHandler(async (req, res) => {
+  const id = req.params.id;
+  const movie = await Movie.findById(id);
+  if (movie) {
+    res.json(movie);
+  } else {
+    res.status(404);
+    throw new Error("movie not found");
+  }
+});
+
+export { getAllMovies, createMovie, updateMovie, getMovieById };

@@ -10,16 +10,8 @@
     "client": "npm start --prefix frontend",
     "dev": "concurrently \"npm run server\" \"npm run client\""
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/veerreshr/imdb-clone.git"
-  },
   "author": "Veeresh Raavipaati",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/veerreshr/imdb-clone/issues"
-  },
-  "homepage": "https://github.com/veerreshr/imdb-clone#readme",
   "devDependencies": {
     "concurrently": "^5.3.0",
     "nodemon": "^2.0.6"
