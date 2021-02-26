@@ -13,13 +13,14 @@ function MovieScreen({ history, match }) {
     <div>
       <div className="row">
         <img
-          className="col"
+          className="col p-0"
           src={currentMovie.poster}
           style={{
             height: "20vh",
             objectFit: "cover",
             position: "absolute",
             zIndex: "-10",
+            left: 0,
           }}
         />
       </div>
@@ -36,19 +37,19 @@ function MovieScreen({ history, match }) {
         <h1 className="p-2"> {currentMovie.name}</h1>
       </div>
       <div className="container">
-        <p className="m-2 p-2">
-          <strong>Year of Release :</strong> {currentMovie.yearofrelease}
+        <p className="m-2 p-2 ">
+          <h4>Year of Release :</h4> {currentMovie.yearofrelease}
         </p>
         <p className="m-2 p-2">
-          <strong>Actors : </strong>
+          <h4>Actors : </h4>
           {currentMovie.actors && currentMovie.actors.map((a) => a + " ")}
         </p>
         <p className="m-2 p-2">
-          <strong>Producers : </strong>{" "}
+          <h4>Producers : </h4>{" "}
           {currentMovie.producers && currentMovie.producers.map((a) => a + " ")}
         </p>
         <p className="m-2 p-2">
-          <strong>Plot : </strong>
+          <h4>Plot : </h4>
           {currentMovie.plot}
         </p>
       </div>
