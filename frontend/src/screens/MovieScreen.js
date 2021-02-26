@@ -41,11 +41,11 @@ function MovieScreen({ history, match }) {
         </p>
         <p className="m-2 p-2">
           <strong>Actors : </strong>
-          {currentMovie.actors.map((a) => a + " ")}
+          {currentMovie.actors && currentMovie.actors.map((a) => a + " ")}
         </p>
         <p className="m-2 p-2">
           <strong>Producers : </strong>{" "}
-          {currentMovie.producers.map((a) => a + " ")}
+          {currentMovie.producers && currentMovie.producers.map((a) => a + " ")}
         </p>
         <p className="m-2 p-2">
           <strong>Plot : </strong>
